@@ -3,8 +3,8 @@ require "language/node"
 class BalenaCli < Formula
   desc "Command-line tool for interacting with the balenaCloud and balena API"
   homepage "https://www.balena.io/docs/reference/cli/"
-  url "https://registry.npmjs.org/balena-cli/-/balena-cli-18.0.4.tgz"
-  sha256 "6d2c69e797f0dbd90b45822838e69f5604e5675bc6e134d28afc03f19ca77761"
+  url "https://registry.npmjs.org/balena-cli/-/balena-cli-18.1.0.tgz"
+  sha256 "1c82b6f8eee7c68675b30e5d1ea8e1f4908155891477a3774cc0d9b0e1727bf6"
   license "Apache-2.0"
 
   livecheck do
@@ -22,8 +22,8 @@ class BalenaCli < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "be9de0258599b4e6ce876de7e7ae41c55f50a4c6f461b7c0975825d2b5c0812b"
   end
 
-  # need node@18, and also align with upstream, https://github.com/balena-io/balena-cli/blob/master/.github/actions/publish/action.yml#L21
-  depends_on "node@18"
+  # need node@20, and also align with upstream, https://github.com/balena-io/balena-cli/blob/master/.github/actions/publish/action.yml#L21
+  depends_on "node@20"
 
   on_macos do
     depends_on "macos-term-size"
@@ -68,13 +68,10 @@ class BalenaCli < Formula
         end
       end
     end
-
-    # Replace universal binaries with their native slices.
-    deuniversalize_machos
   end
 
   test do
-    ENV.prepend_path "PATH", Formula["node@18"].bin
+    ENV.prepend_path "PATH", Formula["node@20"].bin
 
     assert_match "Logging in to balena-cloud.com",
       shell_output("#{bin}/balena login --credentials --email johndoe@gmail.com --password secret 2>/dev/null", 1)
